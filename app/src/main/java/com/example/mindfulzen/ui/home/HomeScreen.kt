@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -30,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import com.example.mindfulzen.ui.theme.ButtonBlue
 import com.example.mindfulzen.ui.theme.DarkerButtonBlue
 import com.example.mindfulzen.ui.theme.DeepBlue
+import com.example.mindfulzen.ui.theme.LightRed
 import com.example.mindfulzen.ui.theme.TextWhite
 
 @Composable
@@ -39,9 +42,10 @@ fun HomeScreen() {
             .fillMaxSize()
             .background(DeepBlue)
     ) {
-        Column {
+        Column(modifier = Modifier.padding(15.dp)) {
             GreetingSection()
             ChipSection(chips = listOf("Sweet Sleep", "Insomnia", "Depression"))
+            CurrentMeditation()
         }
     }
 }
@@ -55,7 +59,7 @@ fun GreetingSection(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(15.dp)
+            .padding(bottom = 20.dp)
     ) {
         Column(
             verticalArrangement = Arrangement.Center
@@ -84,12 +88,12 @@ fun ChipSection(
 ) {
     var selectedChipIndex by remember { mutableIntStateOf(0) }
 
-    LazyRow {
+    LazyRow(modifier = Modifier.padding(bottom = 20.dp)) {
         items(chips.size) {
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
-                    .padding(start = 15.dp, top = 15.dp, bottom = 15.dp)
+                    .padding(end = 15.dp, top = 15.dp, bottom = 15.dp)
                     .clickable {
                         selectedChipIndex = it
                     }
@@ -104,6 +108,49 @@ fun ChipSection(
                     color = TextWhite
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun CurrentMeditation(
+    color: Color = LightRed
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier
+            .clip(RoundedCornerShape(10.dp))
+            .background(color)
+            .padding(horizontal = 15.dp, vertical = 20.dp)
+            .fillMaxWidth()
+    ) {
+        Column {
+            Text(
+                text = "Daily Thought",
+                color = TextWhite,
+                style = MaterialTheme.typography.headlineMedium
+            )
+            Text(
+                text = "Meditation • 3-10 min",
+                color = TextWhite,
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .size(40.dp)
+                .clip(CircleShape)
+                .background(ButtonBlue)
+                .padding(10.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Filled.PlayArrow,
+                contentDescription = "Play",
+                tint = Color.White,
+                modifier = Modifier.size(16.dp)
+            )
         }
     }
 }
